@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract YieldSync {
+    mapping(address => uint256) public deposits;
+
+    function deposit() external payable {
+        deposits[msg.sender] += msg.value;
+    }
+
+    // 简单模拟收益：每次调用领取都会送回 10% “利息”
+    function claimYield() external {
+        uint256 reward = deposits[msg.sender] / 10;
+        payable(msg.sender).transfer(reward);
+    }
+}
